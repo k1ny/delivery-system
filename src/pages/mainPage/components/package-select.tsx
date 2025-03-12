@@ -8,9 +8,9 @@ import {
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ChevronDown, Mail } from "lucide-react";
-import { Input } from "../../../components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { PackageParamInput } from "./package-param-input";
 
 export type PackageFieldValue = {
   length: number;
@@ -18,30 +18,6 @@ export type PackageFieldValue = {
   height: number;
   weight: number;
   name: string;
-};
-
-const PackageParamInput = ({
-  label,
-  value,
-  onChangeValue,
-  placeholder,
-}: {
-  label: string;
-  value: number;
-  onChangeValue: (value: number) => unknown;
-  placeholder: string;
-}) => {
-  return (
-    <div className="flex justify-between">
-      <label>{label}</label>
-      <Input
-        value={value}
-        placeholder={placeholder}
-        className="w-50"
-        onChange={(event) => onChangeValue(Number(event.target.value))}
-      />
-    </div>
-  );
 };
 
 export const PackageSelect = ({
