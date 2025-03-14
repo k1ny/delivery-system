@@ -17,7 +17,7 @@ export type PackageFieldValue = {
   width: number;
   height: number;
   weight: number;
-  name: string;
+  name?: string;
 };
 
 export const PackageSelect = ({
@@ -25,11 +25,13 @@ export const PackageSelect = ({
   value,
   onChange,
   reset,
+  error,
 }: {
   packages: DeliveryPackage[];
   value: PackageFieldValue;
   onChange: (value: PackageFieldValue) => unknown;
   reset: () => unknown;
+  error?: string;
 }) => {
   const [selectedTab, setSelectedTab] = useState<"rough" | "accurate">("rough");
   const { length, width, height, weight, name } = value;
@@ -43,12 +45,12 @@ export const PackageSelect = ({
     <div>
       <label>Размер посылки</label>
       <Popover>
-        <PopoverTrigger className="flex w-[296px]">
+        <PopoverTrigger className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full">
           <div className="flex gap-1 items-center">
             <Mail className="w-5 h-5" />
             {packageInfo}
           </div>
-          <ChevronDown />
+          <ChevronDown className="w-4 h-4 text-gray-400" />
         </PopoverTrigger>
         <PopoverContent>
           <Tabs
@@ -58,9 +60,13 @@ export const PackageSelect = ({
               reset();
             }}
           >
-            <TabsList>
-              <TabsTrigger value="rough">Примерные</TabsTrigger>
-              <TabsTrigger value="accurate">Точные</TabsTrigger>
+            <TabsList className="w-full">
+              <TabsTrigger className="flex-1" value="rough">
+                Примерные
+              </TabsTrigger>
+              <TabsTrigger className="flex-1" value="accurate">
+                Точные
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="rough" className="flex flex-col">
@@ -110,6 +116,7 @@ export const PackageSelect = ({
           </Tabs>
         </PopoverContent>
       </Popover>
+      {error && <span className="text-red-500">{error}</span>}
     </div>
   );
 };

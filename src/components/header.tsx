@@ -6,8 +6,8 @@ import Exit from "../../public/exit.svg";
 
 const Header = () => {
   return (
-    <header className="w-[960px] mx-auto font-medium py-6">
-      <div className="flex justify-between">
+    <header className="mx-auto font-medium py-6 fixed bg-white w-full">
+      <div className="flex justify-between w-[960px] mx-auto">
         <div className="flex gap-8">
           <Link href="/">
             <Logo />

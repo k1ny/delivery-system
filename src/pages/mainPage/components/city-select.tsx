@@ -1,4 +1,5 @@
 import { DeliveryPoint } from "@/api/points";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectGroup,
@@ -15,6 +16,7 @@ interface CitySelectProps {
   error?: string;
   value: string;
   onChange: (value: string) => unknown;
+  pointsIdButton: number[];
 }
 
 export const CitySelect = ({
@@ -24,6 +26,7 @@ export const CitySelect = ({
   error,
   value,
   onChange,
+  pointsIdButton,
 }: CitySelectProps) => {
   return (
     <div>
@@ -45,6 +48,23 @@ export const CitySelect = ({
           </SelectGroup>
         </SelectContent>
       </Select>
+
+      <div className="flex gap-2 underline">
+        {points.map((point) =>
+          pointsIdButton.includes(Number(point.id)) ? (
+            <Button
+              type="button"
+              key={point.id}
+              value={point.name}
+              className="w-fit h-fit p-0 text-gray-500"
+              onClick={onChange}
+            >
+              {point.name}
+            </Button>
+          ) : null,
+        )}
+      </div>
+
       {error && <span className="text-red-500">{error}</span>}
     </div>
   );
