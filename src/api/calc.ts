@@ -1,8 +1,8 @@
 import { API_BASE_URL } from "@/config/env";
-import { DeliveryFormValues } from "@/pages/mainPage/components/delivery-form";
+import { DeliveryPostValues } from "@/pages/mainPage/components/delivery-form";
 
 export const postCalc = async (
-  data: DeliveryFormValues,
+  data: DeliveryPostValues,
 ): Promise<{
   success: boolean;
   reason?: string;
