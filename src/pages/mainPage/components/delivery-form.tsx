@@ -68,27 +68,6 @@ export default function DeliveryForm({
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        const fileredData: DeliveryPostValues = {
-          senderPoint: {
-            latitude: points.find((point) => point.name === data.departure)
-              ?.latitude,
-            longitude: points.find((point) => point.name === data.departure)
-              ?.longitude,
-          },
-          receiverPoint: {
-            latitude: points.find((point) => point.name === data.destination)
-              ?.latitude,
-            longitude: points.find((point) => point.name === data.destination)
-              ?.longitude,
-          },
-          package: {
-            length: data.package.length,
-            width: data.package.width,
-            weight: data.package.weight,
-            height: data.package.height,
-          },
-        };
-
         const queryParameters: DeliveryQueryValues = {
           senderPoint: {
             id: points.find((point) => point.name === data.departure)?.id,
@@ -103,8 +82,6 @@ export default function DeliveryForm({
             height: data.package.height,
           },
         };
-
-        postCalc(fileredData);
         const queryString = encodeURIComponent(JSON.stringify(queryParameters));
         router.push(`/calculate?data=${queryString}`);
       })}
