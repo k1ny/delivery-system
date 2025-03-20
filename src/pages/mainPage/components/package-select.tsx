@@ -34,6 +34,7 @@ export const PackageSelect = ({
   error?: string;
 }) => {
   const [selectedTab, setSelectedTab] = useState<"rough" | "accurate">("rough");
+  const [isOpen, setIsOpen] = useState(false);
   const { length, width, height, weight, name } = value;
 
   const packageInfo =
@@ -44,7 +45,7 @@ export const PackageSelect = ({
   return (
     <div>
       <label>Размер посылки</label>
-      <Popover>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full">
           <div className="flex gap-1 items-center">
             <Mail className="w-5 h-5" />
@@ -77,6 +78,7 @@ export const PackageSelect = ({
                   className="justify-start text-black hover:bg-blue-600 hover:text-white text-base transition duration-0"
                   onClick={() => {
                     onChange({ name, length, width, height, weight });
+                    setIsOpen(false);
                   }}
                 >
                   {`${name}, ${length}x${width}x${height} см`}
@@ -92,25 +94,37 @@ export const PackageSelect = ({
                 label="Длина"
                 placeholder="cм"
                 value={length}
-                onChangeValue={(length) => onChange({ ...value, length })}
+                onChangeValue={(length) => {
+                  onChange({ ...value, length });
+                  console.log(length);
+                }}
               />
               <PackageParamInput
                 label="Ширина"
                 placeholder="cм"
                 value={width}
-                onChangeValue={(width) => onChange({ ...value, width })}
+                onChangeValue={(width) => {
+                  onChange({ ...value, width });
+                  console.log(width);
+                }}
               />
               <PackageParamInput
                 label="Высота"
                 placeholder="cм"
                 value={height}
-                onChangeValue={(height) => onChange({ ...value, height })}
+                onChangeValue={(height) => {
+                  onChange({ ...value, height });
+                  console.log(height);
+                }}
               />
               <PackageParamInput
                 label="Вес"
                 placeholder="cм"
                 value={weight}
-                onChangeValue={(weight) => onChange({ ...value, weight })}
+                onChangeValue={(weight) => {
+                  onChange({ ...value, weight });
+                  console.log(weight);
+                }}
               />
             </TabsContent>
           </Tabs>

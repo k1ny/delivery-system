@@ -3,6 +3,7 @@ import { OrderForm } from "./components/order-form";
 import { postCalc } from "@/api/calc";
 import { getPoints } from "@/api/points";
 import { DeliveryPostValues } from "../mainPage/components/delivery-form";
+import { Container } from "@/components/container";
 
 export default async function Calculate({
   searchParams,
@@ -40,9 +41,9 @@ export default async function Calculate({
 
   return (
     <div>
-      <div className="w-[960px] mx-auto flex justify-between">
+      <Container className="flex justify-between">
         <OrderForm data={deliveryWays.options} />
-      </div>
+      </Container>
     </div>
   );
 }

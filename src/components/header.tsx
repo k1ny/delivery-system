@@ -3,11 +3,12 @@ import Logo from "../../public/logo.svg";
 import User from "../../public/user.svg";
 import Time from "../../public/time.svg";
 import Exit from "../../public/exit.svg";
+import { Container } from "./container";
 
 const Header = () => {
   return (
     <header className="mx-auto font-medium py-6 fixed bg-white w-full">
-      <div className="flex justify-between w-[960px] mx-auto">
+      <Container className="flex justify-between">
         <div className="flex gap-8">
           <Link href="/">
             <Logo />
@@ -27,7 +28,7 @@ const Header = () => {
           <Exit />
           <p>Выйти</p>
         </Link>
-      </div>
+      </Container>
     </header>
   );
 };
