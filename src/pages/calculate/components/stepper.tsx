@@ -1,35 +1,46 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useRef } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 type StepperContextType = {
   currentStep: string;
-  goToStep: (step: string) => void;
+  availibleStep: (step: string) => void;
   nextStep: () => void;
-  order: string[];
+  stepsArray: string[];
 };
 
-const StepperContext = createContext<StepperContextType | undefined>(undefined);
+export const StepperContext = createContext<StepperContextType | undefined>(
+  undefined,
+);
 
 export const Stepper = {
-  Root: ({ order, children }: { order: string[]; children: ReactNode }) => {
-    const [currentStep, setCurrentStep] = useState(order[0]);
+  Root: ({
+    stepsArray,
+    children,
+  }: {
+    stepsArray: string[];
+    children: ReactNode;
+  }) => {
+    const [currentStep, setCurrentStep] = useState(stepsArray[0]);
 
-    const goToStep = (step: string) => {
-      if (order.includes(step)) setCurrentStep(step);
+    const availibleStep = (step: string) => {
+      if (stepsArray.includes(step)) setCurrentStep(step);
     };
 
     const nextStep = () => {
-      const currentIndex = order.indexOf(currentStep);
-      if (currentIndex < order.length - 1) {
-        setCurrentStep(order[currentIndex + 1]);
+      const currentIndex = stepsArray.indexOf(currentStep);
+      if (currentIndex < stepsArray.length - 1) {
+        setCurrentStep(stepsArray[currentIndex + 1]);
       }
     };
 
     return (
       <StepperContext.Provider
-        value={{ currentStep, goToStep, nextStep, order }}
+        value={{ currentStep, availibleStep, nextStep, stepsArray }}
       >
-        {children}
+        <div className="relative">
+          <TransitionGroup>{children}</TransitionGroup>
+        </div>
       </StepperContext.Provider>
     );
   },
@@ -38,7 +49,21 @@ export const Stepper = {
     const context = useContext(StepperContext);
     if (!context) throw new Error("Stepper.Step must be inside Stepper.Root");
 
-    return context.currentStep === value ? <div>{children}</div> : null;
+    const nodeRef = useRef(null);
+
+    return (
+      <CSSTransition
+        in={context.currentStep === value}
+        timeout={500}
+        classNames="step"
+        nodeRef={nodeRef}
+        unmountOnExit
+      >
+        <div ref={nodeRef} key={value} className="absolute w-full">
+          {children}
+        </div>
+      </CSSTransition>
+    );
   },
 
   Controls: () => {
@@ -46,21 +71,21 @@ export const Stepper = {
     if (!context)
       throw new Error("Stepper.Controls must be inside Stepper.Root");
 
-    const { currentStep, goToStep, order } = context;
-    const currentIndex = order.indexOf(currentStep);
+    const { currentStep, availibleStep, stepsArray } = context;
+    const currentIndex = stepsArray.indexOf(currentStep);
 
     return (
       <div className="flex gap-4">
         <button
-          onClick={() => goToStep(order[currentIndex - 1])}
+          onClick={() => availibleStep(stepsArray[currentIndex - 1])}
           disabled={currentIndex === 0}
           className="p-2 border rounded disabled:opacity-50"
         >
           Назад
         </button>
         <button
-          onClick={() => goToStep(order[currentIndex + 1])}
-          disabled={currentIndex === order.length - 1}
+          onClick={() => availibleStep(stepsArray[currentIndex + 1])}
+          disabled={currentIndex === stepsArray.length - 1}
           className="p-2 border rounded disabled:opacity-50"
         >
           Вперёд

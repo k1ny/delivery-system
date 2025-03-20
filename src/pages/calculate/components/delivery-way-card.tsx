@@ -27,6 +27,7 @@ export const DeliveryWayCard = ({
 }: DeliveryCard) => {
   return (
     <Button
+      type="button"
       onClick={nextStep}
       className={`flex justify-start gap-4 w-[468px] h-full border rounded-3xl text-start items-start transition-all ${
         isSelected ? "border-blue-500 bg-blue-500" : "border-gray-200"
