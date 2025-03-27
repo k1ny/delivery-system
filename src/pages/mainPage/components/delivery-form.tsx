@@ -133,7 +133,7 @@ export default function DeliveryForm({
         rules={{
           validate: (obj) =>
             Object.entries(obj)
-              .filter(([key]) => key !== "name")
+              .filter(([key]) => key !== "name") // Исключаем name из проверки
               .every(([, value]) => typeof value === "number" && value > 0) ||
             "Заполните размеры!",
         }}

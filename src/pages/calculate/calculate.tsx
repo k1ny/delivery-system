@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
-import { OrderForm } from "./components/order-form";
+
 import { postCalc } from "@/api/calc";
 import { getPoints } from "@/api/points";
 import { DeliveryPostValues } from "../mainPage/components/delivery-form";
 import { Container } from "@/components/container";
+import { OrderForm } from "./components/order-form/order-form";
 
 export default async function Calculate({
   searchParams,
